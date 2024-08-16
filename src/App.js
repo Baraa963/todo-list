@@ -13,6 +13,7 @@ import { useState } from "react";
 
 function App() {
   const [showEditPopup, setShowEditPopup] = useState(false);
+  const [EditTodoId, setEditTodoId] = useState();
   const showshowEditPopupfunc = () => {
     setShowEditPopup(true);
   };
@@ -96,8 +97,7 @@ function App() {
                 <div
                   className={t.icon2}
                   onClick={() => {
-                    
-                    editTodo(t.id);
+                    setEditTodoId(t.id);
                     showshowEditPopupfunc();
                   }}
                 >
@@ -131,31 +131,47 @@ function App() {
   return (
     <div className="App">
       {showEditPopup && (
-        <div>
-          <TextField
-            style={{ width: "40%" }}
-            placeholder=" العنوان الفرعي الجديد "
-            value={edittTodo.edittTodoSubTitle}
-            onChange={(e) =>
-              setedittTodo({ ...edittTodo, edittTodoSubTitle: e.target.value })
-            }
-          />
-          <TextField
-            style={{ width: "40%" }}
-            placeholder=" العنوان الجديد "
-            value={edittTodo.edittTodoTitle}
-            onChange={(e) =>
-              setedittTodo({ ...edittTodo, edittTodoTitle: e.target.value })
-            }
-          />
-
-          <Button
-            onClick={() => {
-              showshowEditPopupfunc1();
-            }}
-          >
-            تعديل
-          </Button>
+        <div className="edit-popup">
+          <div className="textField-popup">
+            <TextField
+              style={{ width: "40rem" }}
+              placeholder=" العنوان الفرعي الجديد "
+              value={edittTodo.edittTodoSubTitle}
+              onChange={(e) =>
+                setedittTodo({
+                  ...edittTodo,
+                  edittTodoSubTitle: e.target.value,
+                })
+              }
+            />
+          </div>
+          <div className="textField-popup">
+            <TextField
+              style={{ width: "40rem" }}
+              placeholder=" العنوان الجديد "
+              value={edittTodo.edittTodoTitle}
+              onChange={(e) =>
+                setedittTodo({ ...edittTodo, edittTodoTitle: e.target.value })
+              }
+            />
+          </div>
+          <div className="btn-popup">
+            <Button
+              variant="contained"
+              style={{
+                height: "8.5vh",
+                width: "90%",
+                background: "rgb(0 45 67)",
+                marginTop: "0.5rem",
+              }}
+              onClick={() => {
+                editTodo(EditTodoId);
+                showshowEditPopupfunc1();
+              }}
+            >
+              تعديل
+            </Button>
+          </div>
         </div>
       )}
 

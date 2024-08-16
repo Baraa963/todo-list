@@ -41,3 +41,27 @@ body {
 .icon-3:hover{
   border: 3px solid rgba(0, 255, 0, 0.7);
 }
+.edit-popup {
+  display: flex;
+  flex-direction: column;
+  justify-content: start;
+  align-items: start;
+  background-color: rgb(217, 219, 219);
+  border: 2px solid white;
+  border-radius: 5px;
+  width: 40rem;
+  padding: 1rem;
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%,-50%);
+  z-index: 999;
+  height: 30vh;
+
+}
+.textField-popup {
+  margin-top: 0.5rem;
+}
+.text-filed{
+  width: 100%;
+}
