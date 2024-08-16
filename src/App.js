@@ -12,6 +12,13 @@ import CheckIcon from "@mui/icons-material/Check";
 import { useState } from "react";
 
 function App() {
+  const [showEditPopup, setShowEditPopup] = useState(false);
+  const showshowEditPopupfunc = () => {
+    setShowEditPopup(true);
+  };
+  const showshowEditPopupfunc1 = () => {
+    setShowEditPopup(false);
+  };
   const [edittTodo, setedittTodo] = useState({
     edittTodoTitle: "",
     edittTodoSubTitle: "",
@@ -59,7 +66,6 @@ function App() {
     setAllTodos(updatedTodo);
     setedittTodo({ edittTodoTitle: "", edittTodoSubTitle: "" }); // Clear the input fields after editing
   };
-  
 
   const todoList = allTodos.map((t) => {
     return (
@@ -90,7 +96,9 @@ function App() {
                 <div
                   className={t.icon2}
                   onClick={() => {
+                    
                     editTodo(t.id);
+                    showshowEditPopupfunc();
                   }}
                 >
                   <ModeEditOutlinedIcon
@@ -122,27 +130,35 @@ function App() {
 
   return (
     <div className="App">
-      <div>
-        
-        <TextField
-          style={{ width: "40%" }}
-          placeholder=" العنوان الفرعي الجديد "
-          value={edittTodo.edittTodoSubTitle}
-          onChange={(e) =>
-            setedittTodo({ ...edittTodo, edittTodoSubTitle: e.target.value })
-          }
-        />
-        <TextField
-          style={{ width: "40%" }}
-          placeholder=" العنوان الجديد "
-          value={edittTodo.edittTodoTitle}
-          onChange={(e) =>
-            setedittTodo({ ...edittTodo, edittTodoTitle: e.target.value })
-          }
-        />
+      {showEditPopup && (
+        <div>
+          <TextField
+            style={{ width: "40%" }}
+            placeholder=" العنوان الفرعي الجديد "
+            value={edittTodo.edittTodoSubTitle}
+            onChange={(e) =>
+              setedittTodo({ ...edittTodo, edittTodoSubTitle: e.target.value })
+            }
+          />
+          <TextField
+            style={{ width: "40%" }}
+            placeholder=" العنوان الجديد "
+            value={edittTodo.edittTodoTitle}
+            onChange={(e) =>
+              setedittTodo({ ...edittTodo, edittTodoTitle: e.target.value })
+            }
+          />
 
-        <Button>تعديل</Button>
-      </div>
+          <Button
+            onClick={() => {
+              showshowEditPopupfunc1();
+            }}
+          >
+            تعديل
+          </Button>
+        </div>
+      )}
+
       <Container
         maxWidth="sm"
         marginTop="5rem"
