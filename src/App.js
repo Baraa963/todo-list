@@ -12,6 +12,7 @@ import CheckIcon from "@mui/icons-material/Check";
 import { useState } from "react";
 
 function App() {
+  /**------------------edit todo------------------- */
   const [showEditPopup, setShowEditPopup] = useState(false);
   const [EditTodoId, setEditTodoId] = useState();
   const showshowEditPopupfunc = () => {
@@ -24,13 +25,46 @@ function App() {
     edittTodoTitle: "",
     edittTodoSubTitle: "",
   });
+
+  /**------------------new Todo------------------- */
+
   const [newTodo, setNewTodo] = useState({
     newTodoTitle: "",
     newTodoSubTitle: "",
   });
 
+  /**------------------all Todos------------------- */
+
   const [allTodos, setAllTodos] = useState([]);
 
+  /**------------------Completed Todos------------------- */
+  const [CompletedTodos, setCompletedTodos] = useState([]);
+  const CompletedTodosFunc = (id) => {
+    const todos = allTodos.map((t) => {
+      if (t.id == id) {
+        setCompletedTodos([
+          ...CompletedTodos,
+          {
+            id: CompletedTodos.length,
+            icon1: "icon-1",
+            icon2: "icon-2",
+            icon3: "icon-3",
+            title: t.title,
+            subTitle: t.subTitle,
+          },
+        ]);
+      }
+    });
+    console.log(CompletedTodos);
+    const todos1 = allTodos.filter((t) => {
+      return t.id !== id;
+    });
+    setAllTodos(todos1);
+    console.log(allTodos);
+
+  };
+
+  /**------------------add Todo function------------------- */
   const addTodo = () => {
     if (newTodo.newTodoTitle !== "" && newTodo.newTodoSubTitle !== "") {
       setAllTodos([
@@ -47,12 +81,18 @@ function App() {
       setNewTodo({ newTodoTitle: "", newTodoSubTitle: "" });
     }
   };
+
+  /**------------------delete Todo function------------------- */
+
   const deleteTodo = (id) => {
     const todos = allTodos.filter((t) => {
       return t.id !== id;
     });
     setAllTodos(todos);
   };
+
+  /**------------------edit Todo function------------------- */
+
   const editTodo = (id) => {
     const updatedTodo = allTodos.map((todo) => {
       if (todo.id === id) {
@@ -105,7 +145,12 @@ function App() {
                     style={{ color: "blue", marginTop: "3px" }}
                   />
                 </div>
-                <div className={t.icon3}>
+                <div
+                  className={t.icon3}
+                  onClick={() => {
+                    CompletedTodosFunc(t.id);
+                  }}
+                >
                   <CheckIcon style={{ color: "green", marginTop: "3px" }} />
                 </div>
               </Stack>
@@ -178,7 +223,13 @@ function App() {
       <Container
         maxWidth="sm"
         marginTop="5rem"
-        style={{ backgroundColor: "white" }}
+        style={{
+          backgroundColor: "beige",
+          position: "absolute",
+          top: "50%",
+          right: "50%",
+          transform: "translate(50%, -50%)",
+        }}
       >
         <h1>مهامي</h1>
         <hr style={{ marginTop: "-1rem" }} />
