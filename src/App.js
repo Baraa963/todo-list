@@ -17,6 +17,23 @@ function App() {
     unCompletedTodos: false,
   });
 
+  const [showEditPopup, setShowEditPopup] = useState(false);
+  const [editTodoId, setEditTodoId] = useState(null);
+
+  const [edittTodo, setedittTodo] = useState({
+    edittTodoTitle: "",
+    edittTodoSubTitle: "",
+  });
+
+  const [newTodo, setNewTodo] = useState({
+    newTodoTitle: "",
+    newTodoSubTitle: "",
+  });
+
+  const [allTodos, setAllTodos] = useState([]);
+  const [completedTodos, setCompletedTodos] = useState([]);
+  const [unCompletedTodos, setUnCompletedTodos] = useState([]);
+
   const showUnCompletedTodosFunc = () => {
     setShowTodos({
       allTodos: false,
@@ -41,103 +58,45 @@ function App() {
     });
   };
 
-  /**------------------edit todo------------------- */
-  const [showEditPopup, setShowEditPopup] = useState(false);
-  const [EditTodoId, setEditTodoId] = useState();
-  const showshowEditPopupfunc = () => {
-    setShowEditPopup(true);
-  };
-
-  const showshowEditPopupfunc1 = () => {
-    setShowEditPopup(false);
-  };
-
-  const [edittTodo, setedittTodo] = useState({
-    edittTodoTitle: "",
-    edittTodoSubTitle: "",
-  });
-
-  /**------------------new Todo------------------- */
-  const [newTodo, setNewTodo] = useState({
-    newTodoTitle: "",
-    newTodoSubTitle: "",
-  });
-
-  /**------------------all Todos------------------- */
-  const [allTodos, setAllTodos] = useState([]);
-
-  /**------------------Completed Todos------------------- */
-  const [CompletedTodos, setCompletedTodos] = useState([]);
-
   const CompletedTodosFunc = (id) => {
-    const todos = allTodos.map((t) => {
-      if (t.id === id) {
-        setCompletedTodos([
-          ...CompletedTodos,
-          {
-            id: CompletedTodos.length + 1,
-            icon1: "icon-1",
-            icon2: "icon-2",
-            icon3: "icon-3",
-            title: t.title,
-            subTitle: t.subTitle,
-          },
-        ]);
-      }
-      return t;
-    });
-
-    const todos1 = allTodos.filter((t) => t.id !== id);
-    setAllTodos(todos1);
+    const todoToComplete = allTodos.find((t) => t.id === id);
+    if (todoToComplete) {
+      setCompletedTodos([...completedTodos, todoToComplete]);
+      setUnCompletedTodos(allTodos.filter((t) => t.id !== id));
+      setAllTodos(allTodos.filter((t) => t.id !== id));
+    }
   };
 
-  /**------------------UnCompleted Todos------------------- */
+  // const UnCompletedTodosFunc = (id) => {
+  //   const todoToUncomplete = completedTodos.find((t) => t.id === id);
+  //   if (todoToUncomplete) {
+  //     setUnCompletedTodos([...unCompletedTodos, todoToUncomplete]);
+  //     setCompletedTodos(completedTodos.filter((t) => t.id !== id));
+  //   }
+  // };
 
-  const [UnCompletedTodos, setUnCompletedTodos] = useState([]);
-  const UnCompletedTodosFunc = (id) => {
-    const todos = allTodos.map((t) => {
-      if (t.id !== id) {
-        setUnCompletedTodos([
-          ...allTodos,
-          {
-            id: UnCompletedTodos.length + 1,
-            icon1: "icon-1",
-            icon2: "icon-2",
-            icon3: "icon-3",
-            title: t.title,
-            subTitle: t.subTitle,
-          },
-        ]);
-      }
-      return t;
-    });
-  };
-
-  /**------------------add Todo function------------------- */
   const addTodo = () => {
     if (newTodo.newTodoTitle !== "" && newTodo.newTodoSubTitle !== "") {
-      setAllTodos([
-        ...allTodos,
-        {
-          id: allTodos.length + 1,
-          icon1: "icon-1",
-          icon2: "icon-2",
-          icon3: "icon-3",
-          title: newTodo.newTodoTitle,
-          subTitle: newTodo.newTodoSubTitle,
-        },
-      ]);
+      const newTask = {
+        id: allTodos.length + 1,
+        icon1: "icon-1",
+        icon2: "icon-2",
+        icon3: "icon-3",
+        title: newTodo.newTodoTitle,
+        subTitle: newTodo.newTodoSubTitle,
+      };
+      setAllTodos([...allTodos, newTask]);
+      setUnCompletedTodos([...unCompletedTodos, newTask]);
       setNewTodo({ newTodoTitle: "", newTodoSubTitle: "" });
     }
   };
 
-  /**------------------delete Todo function------------------- */
   const deleteTodo = (id) => {
-    const todos = allTodos.filter((t) => t.id !== id);
-    setAllTodos(todos);
+    setAllTodos(allTodos.filter((t) => t.id !== id));
+    setCompletedTodos(completedTodos.filter((t) => t.id !== id));
+    setUnCompletedTodos(unCompletedTodos.filter((t) => t.id !== id));
   };
 
-  /**------------------edit Todo function------------------- */
   const editTodo = (id) => {
     const updatedTodo = allTodos.map((todo) => {
       if (todo.id === id) {
@@ -150,7 +109,8 @@ function App() {
       return todo;
     });
     setAllTodos(updatedTodo);
-    setedittTodo({ edittTodoTitle: "", edittTodoSubTitle: "" }); // Clear the input fields after editing
+    setedittTodo({ edittTodoTitle: "", edittTodoSubTitle: "" });
+    setShowEditPopup(false);
   };
 
   return (
@@ -160,7 +120,7 @@ function App() {
           <div className="textField-popup">
             <TextField
               style={{ width: "40rem" }}
-              placeholder=" العنوان الفرعي الجديد "
+              placeholder="العنوان الفرعي الجديد"
               value={edittTodo.edittTodoSubTitle}
               onChange={(e) =>
                 setedittTodo({
@@ -173,7 +133,7 @@ function App() {
           <div className="textField-popup">
             <TextField
               style={{ width: "40rem" }}
-              placeholder=" العنوان الجديد "
+              placeholder="العنوان الجديد"
               value={edittTodo.edittTodoTitle}
               onChange={(e) =>
                 setedittTodo({ ...edittTodo, edittTodoTitle: e.target.value })
@@ -190,8 +150,7 @@ function App() {
                 marginTop: "0.5rem",
               }}
               onClick={() => {
-                editTodo(EditTodoId);
-                showshowEditPopupfunc1();
+                editTodo(editTodoId);
               }}
             >
               تعديل
@@ -228,27 +187,17 @@ function App() {
             ((showTodos.allTodos
               ? allTodos
               : showTodos.completedTodos
-              ? CompletedTodos
+              ? completedTodos
               : showTodos.unCompletedTodos
-              ? allTodos.filter(
-                  (todo) =>
-                    !CompletedTodos.some(
-                      (completed) => completed.id === todo.id
-                    )
-                )
+              ? unCompletedTodos
               : []
             ).length > 0 ? (
               (showTodos.allTodos
                 ? allTodos
                 : showTodos.completedTodos
-                ? CompletedTodos
+                ? completedTodos
                 : showTodos.unCompletedTodos
-                ? allTodos.filter(
-                    (todo) =>
-                      !CompletedTodos.some(
-                        (completed) => completed.id === todo.id
-                      )
-                  )
+                ? unCompletedTodos
                 : []
               ).map((todo) => (
                 <div
@@ -279,7 +228,11 @@ function App() {
                             className={todo.icon2}
                             onClick={() => {
                               setEditTodoId(todo.id);
-                              showshowEditPopupfunc();
+                              setedittTodo({
+                                edittTodoTitle: todo.title,
+                                edittTodoSubTitle: todo.subTitle,
+                              });
+                              setShowEditPopup(true);
                             }}
                           >
                             <ModeEditOutlinedIcon
@@ -290,7 +243,7 @@ function App() {
                             className={todo.icon3}
                             onClick={() => {
                               CompletedTodosFunc(todo.id);
-                              UnCompletedTodosFunc(todo.id)
+                              // UnCompletedTodosFunc(todo.id);
                             }}
                           >
                             <CheckIcon
@@ -321,7 +274,6 @@ function App() {
               </div>
             ))}
         </Stack>
-
         <Grid
           container
           spacing={0}
