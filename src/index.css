@@ -1,72 +1,13 @@
-body {
+*{
+  padding: 0;
   margin: 0;
-  font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", "Roboto", "Oxygen",
-    "Ubuntu", "Cantarell", "Fira Sans", "Droid Sans", "Helvetica Neue",
-    sans-serif;
-  -webkit-font-smoothing: antialiased;
-  -moz-osx-font-smoothing: grayscale;
 }
-.App {
-  margin-top: -1.4rem;
+.App{
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  background: #191b1f;
   width: 100%;
   height: 100vh;
-}
-
-.todo {
-  margin-top: 1rem;
-  border-radius: 0.5rem;
-}
-.icon-1 {
-  width: 2rem;
-  height: 2rem;
-  border: 3px solid rgba(255, 255, 0, 0.5);
-  border-radius: 50%;
-  transition: ease-in-out 0.3s;
-}
-.icon-1:hover {
-  border: 3px solid rgba(255, 255, 0, 0.9);
-}
-.icon-2 {
-  width: 2rem;
-  height: 2rem;
-  border: 3px solid rgba(0, 0, 255, 0.5);
-  border-radius: 50%;
-  transition: ease-in-out 0.3s;
-}
-.icon-2:hover {
-  border: 3px solid rgba(0, 0, 255, 1);
-}
-.icon-3 {
-  width: 2rem;
-  height: 2rem;
-  border: 3px solid rgba(0, 255, 0, 0.4);
-  border-radius: 50%;
-  transition: ease-in-out 0.3s;
-}
-.icon-3:hover {
-  border: 3px solid rgba(0, 255, 0, 0.7);
-}
-
-.edit-popup {
-  display: flex;
-  flex-direction: column;
-  justify-content: start;
-  align-items: start;
-  background-color: rgb(217, 219, 219);
-  border: 2px solid white;
-  border-radius: 5px;
-  width: 40rem;
-  padding: 1rem;
-  position: absolute;
-  top: 50%;
-  left: 50%;
-  transform: translate(-50%, -50%);
-  z-index: 999;
-  height: 30vh;
-}
-.textField-popup {
-  margin-top: 0.5rem;
-}
-.text-filed {
-  width: 100%;
+  direction: rtl;
 }
