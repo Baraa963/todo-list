@@ -11,7 +11,7 @@ export default function Todo() {
     <Card
     className="todo-card"
       sx={{
-        minWidth: 275,
+        minWidth: 276,
         background: "#283593",
         color: "white",
         marginTop: "1rem",
